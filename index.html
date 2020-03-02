@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="mdb.min.css">
+</head>
+
+<body>
+<div class="container-fluid">
+   <div class="row" id="app">
+    <div class="col-md-3" style="padding: 3em">
+		 <h4 class="display-4">NASA API</h4>
+
+         <button class="btn blue-gradient" :disabled="!disableBtn" @click="apod" style="width: 9em;">APOD</button>
+         <button class="btn blue-gradient" :disabled="disableBtn" @click="neo" style="width: 9em;">NEO</button>
+
+    </div>
+
+     <div class="col-md-9">
+            <div class="jumbotron playground">
+                <div class="container-fluid">
+                    <div class="row">
+
+                      <!------APOD------->
+                      <div class="col-md-12" v-cloak style="overflow: auto;" v-if="APOD">
+                        <h3>APOD (Astronomy Picture of the Day)</h3>
+                        <p>{{title}} -- <span class="badge badge-info animated bounceInDown" style="font-size: 1em">{{date}}</span></p>
+                        <img :src="imageUrl" :title="imageTitle" width=90%>
+                      </div>
+                      <!--------NEO---------->
+                      <div class="col-md-12" v-else>
+                        <h3 class="">NEO (Near-earth Objects)</h3>
+                  
+                        <div v-cloak v-if="numAstroids > 0">
+                          <p class="m-3 badge rounded animated fadeInLeft"  style="font-size: 1.1em;background: #69901D;padding:1em;">showing {{numAstroids}} items</p>
+                          <p>{{largestObject.name}} has the largest diameter among these NEOs. It's about <span class="badge badge-info animated heartBeat" style="font-size: 1em">{{largestObject.diameter}}</span> feet.</p>
+                        </div>
+
+                        <table class="table table-dark table-striped" style="width: 100%;overflow: auto">
+                          <thead>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Close Approach Date</th>
+                            <th>Estimated Diameter (ft)</th>
+                            <th>Remove</th>
+                          </thead>
+                          <tbody>
+                            <tr v-cloak v-for="(a,index) in astroids">
+                              <td>{{index + 1}}</td>
+                              <td>{{a.name}}</td>
+                              <td  :style="getRowStyle(a)">{{getApproachDate(a)}}</td>
+                              <td>
+                                <ul>
+                                  <li v-for="(value, key) in a.estimated_diameter.feet">
+                                    {{key}}: {{value}}
+                                  </li>
+                                </ul>
+                              </td>
+                              <td>
+                                <button @click="remove(index)" class="btn btn-warning animated fadeInRight">remove</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                     
+                    </div>
+                </div>
+                     
+            </div>
+            </div>
+
+       </div>
+  </div>
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script type="text/javascript">
+   		
+	var vm = new Vue({
+					el: "#app",
+					data: {
+						imageUrl: "",
+						imageTitle: "",
+						title: "",
+						date: "",
+						APOD: true,
+						disableBtn:false,
+						astroids: []
+					},
+					computed: {
+						numAstroids: function(){
+						return this.astroids.length;
+					},
+						largestObject: function(){
+							//get the objects that actually have diameter data
+							var neosHavingData = this.astroids.filter(function(neo){
+								return neo.estimated_diameter != null;
+							});
+
+							var simpleNeos = neosHavingData.map(function(neo){
+								return {name:neo.name, diameter: Math.round(neo.estimated_diameter.feet.estimated_diameter_max)};
+							});
+
+							var sortedNoes = simpleNeos.sort(function(a,b){
+								return a.diameter-b.diameter;
+							});
+							
+							return sortedNoes[sortedNoes.length-1];
+						}
+					},
+					created: function (){
+						this.fetchAstroids();
+					},
+					methods: {
+						fetchAstroids: function(){
+							var apiKey = 'aYKdbEeryeBw5nhmse0NJP5rPt3tzSlVavBfLOFE';
+							var url_apod = "https://api.nasa.gov/planetary/apod?api_key=" + apiKey;
+							var url_neo = "https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=" + apiKey;
+							axios.get(url_apod)
+							 .then(function(response){
+							 	vm.imageUrl = response.data.url;
+							 	vm.imageTitle = response.data.title;
+							 	vm.title = response.data.title;
+							 	vm.date = response.data.date;
+							 });
+
+							 axios.get(url_neo)
+							 .then(function(response2){
+							 	vm.astroids = response2.data.near_earth_objects.slice(0,20);
+							 });
+						},
+
+						getApproachDate: function(a){
+							if(a.close_approach_data.length != 0)
+								return a.close_approach_data[0].close_approach_date;
+							else
+								return 'N/A'
+						},
+
+						remove: function(index){
+							this.astroids.splice(index,1);
+			
+						},
+
+						apod: function(){
+							vm.APOD = true;
+							this.disableBtn = false;
+						},
+						neo: function(){
+							vm.APOD = false;
+							this.disableBtn = true;
+						},
+
+						getRowStyle: function(a){
+							if (a.close_approach_data.length == 0) {
+								return {
+									color:'red',
+									'font-weight':'bold'
+									};
+							}
+						}
+
+					}
+				});
+   </script>
+</body>
+</html>
