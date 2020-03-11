@@ -1,204 +1,317 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	 <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <!-- Material Design Bootstrap -->
-  <link rel="stylesheet" href="mdb.min.css">
-   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<title>Time Line Test</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 </head>
-<style type="text/css">
-	.test-leave-to, .test-enter{
-		transform: translateX(-100px);
-		opacity: 0;
-	}
-	.test-enter-active, .test-leave-active{
-		transition: all .5s ease;
-	}
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
 
-	.tableRow-leave-to, .tableRow-enter{
-		transform: translateY(-20px);
-		opacity: 0;
-	}
-	.tableRow-enter-active, .tableRow-leave-active{
-		transition: all .5s ease;
-	}
 </style>
 <body>
-<div class="container-fluid">
-   <div class="row" id="app">
-    <div class="col-md-3" style="padding: 3em">
-		 <h4 class="display-4">NASA API</h4>
+	<div class="container">
+		<div id="chartdiv"></div>
+	</div>
 
-         <button class="btn blue-gradient" :disabled="!disableBtn" @click="apod" style="width: 9em;">APOD</button>
-         <button class="btn blue-gradient" :disabled="disableBtn" @click="neo" style="width: 9em;">NEO</button>
+	<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
-         <a type="button" class="btn purple-gradient" href="https://github.com/dhuang0903/VueTest/archive/master.zip"><i class="fas fa-cloud-download-alt"></i> Download Source</a>
+<!-- Chart code -->
+<script>
+am4core.ready(function() {
 
-    </div>
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
 
-     <div class="col-md-9">
-            <div class="jumbotron playground">
-                <div class="container-fluid">
-                    <div class="row">
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+var data_ip = ["ip1", "ip2", "ip3", "ip4", "ip5", "ip6", "ip7", "ip8"];
+var data_values = [[[1583847000000, 10282400], [1583847900000, 5670311], [1583848800000, 11008177], [1583849700000, 6045422], [1583850600000, 6063733], [1583851500000, 8614044], [1583852400000, 9349777], [1583853300000, 5414577], [1583854200000, 8922933], [1583855100000, 15384266], [1583856000000, 8700533], [1583856900000, 8408977], [1583857800000, 8570577], [1583858700000, 8486222], [1583859600000, 9135288], [1583860500000, 8476266], [1583861400000, 6611466], [1583862300000, 6212355], [1583863200000, 8193688], [1583864100000, 3998666], [1583865000000, 11928088], [1583865900000, 24622044], [1583866800000, 11701422], [1583867700000, 16179822], [1583868600000, 15165422], [1583869500000, 14042044], [1583870400000, 15516000], [1583871300000, 10388622], [1583872200000, 7255022], [1583873100000, 2661333], [1583874000000, 2860177], [1583874900000, 3914933], [1583875800000, 2514044], [1583876700000, 2376355], [1583877600000, 1842666], [1583878500000, 1600266], [1583879400000, 37244], [1583880300000, 548977], [1583881200000, 0], [1583882100000, 367466], [1583883000000, 4172622], [1583883900000, 4299733], [1583884800000, 1473333], [1583885700000, 1135555], [1583886600000, 227555], [1583887500000, 3548088], [1583888400000, 150044], [1583889300000, 0], [1583890200000, 375733], [1583891100000, 500977], [1583892000000, 739911], [1583892900000, 9244], [1583893800000, 666666], [1583894700000, 4174222], [1583895600000, 6763733], [1583896500000, 260622], [1583897400000, 2231288], [1583898300000, 1102400], [1583899200000, 828355], [1583900100000, 956444], [1583901000000, 3013422], [1583901900000, 0], [1583902800000, 0], [1583903700000, 2137866], [1583904600000, 0], [1583905500000, 0], [1583906400000, 8177], [1583907300000, 0], [1583908200000, 933333], [1583909100000, 0], [1583910000000, 5333], [1583910900000, 0], [1583911800000, 0], [1583912700000, 1733333], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 9600], [1583917200000, 132977], [1583918100000, 362133], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 4622], [1583925300000, 0], [1583926200000, 0], [1583927100000, 192088], [1583928000000, 280622], [1583928900000, 11843733], [1583929800000, 12034222], [1583930700000, 16219822], [1583931600000, 5905333], [1583932500000, 8863644]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 0], [1583849700000, 133333], [1583850600000, 666666], [1583851500000, 0], [1583852400000, 261155], [1583853300000, 258311], [1583854200000, 0], [1583855100000, 1322488], [1583856000000, 5333], [1583856900000, 336444], [1583857800000, 5188444], [1583858700000, 157688], [1583859600000, 116088], [1583860500000, 0], [1583861400000, 3555], [1583862300000, 0], [1583863200000, 148622], [1583864100000, 123822], [1583865000000, 3555], [1583865900000, 88888], [1583866800000, 200177], [1583867700000, 65422], [1583868600000, 54577], [1583869500000, 48533], [1583870400000, 714311], [1583871300000, 32355], [1583872200000, 3083911], [1583873100000, 35633866], [1583874000000, 1344000], [1583874900000, 12800], [1583875800000, 136888], [1583876700000, 146666], [1583877600000, 136888], [1583878500000, 259377], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 0], [1583892900000, 0], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 0], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 1008177], [1583849700000, 644800], [1583850600000, 33322755], [1583851500000, 0], [1583852400000, 0], [1583853300000, 0], [1583854200000, 0], [1583855100000, 0], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 0], [1583859600000, 0], [1583860500000, 400000], [1583861400000, 0], [1583862300000, 0], [1583863200000, 0], [1583864100000, 0], [1583865000000, 0], [1583865900000, 0], [1583866800000, 0], [1583867700000, 0], [1583868600000, 0], [1583869500000, 0], [1583870400000, 0], [1583871300000, 0], [1583872200000, 0], [1583873100000, 0], [1583874000000, 0], [1583874900000, 0], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 0], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 0], [1583892900000, 0], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 4209600], [1583913600000, 1200000], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 0], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 0], [1583849700000, 0], [1583850600000, 0], [1583851500000, 0], [1583852400000, 0], [1583853300000, 0], [1583854200000, 0], [1583855100000, 0], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 0], [1583859600000, 0], [1583860500000, 0], [1583861400000, 0], [1583862300000, 0], [1583863200000, 0], [1583864100000, 0], [1583865000000, 0], [1583865900000, 0], [1583866800000, 0], [1583867700000, 1185688], [1583868600000, 14151822], [1583869500000, 10143466], [1583870400000, 2408000], [1583871300000, 0], [1583872200000, 0], [1583873100000, 0], [1583874000000, 0], [1583874900000, 0], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 0], [1583879400000, 0], [1583880300000, 0], [1583881200000, 1219288], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 0], [1583892900000, 0], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 0], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 0], [1583849700000, 0], [1583850600000, 0], [1583851500000, 0], [1583852400000, 933333], [1583853300000, 30844], [1583854200000, 0], [1583855100000, 0], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 0], [1583859600000, 933333], [1583860500000, 250488], [1583861400000, 0], [1583862300000, 0], [1583863200000, 0], [1583864100000, 0], [1583865000000, 0], [1583865900000, 0], [1583866800000, 0], [1583867700000, 0], [1583868600000, 149600], [1583869500000, 323466], [1583870400000, 597244], [1583871300000, 133333], [1583872200000, 265866], [1583873100000, 0], [1583874000000, 0], [1583874900000, 0], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 0], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 3555], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 1924444], [1583892900000, 20383822], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 3911], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 3555], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 0], [1583849700000, 0], [1583850600000, 6044], [1583851500000, 0], [1583852400000, 4622], [1583853300000, 0], [1583854200000, 0], [1583855100000, 0], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 3555], [1583859600000, 672000], [1583860500000, 4122666], [1583861400000, 4518044], [1583862300000, 4189688], [1583863200000, 4795377], [1583864100000, 649600], [1583865000000, 244977], [1583865900000, 489955], [1583866800000, 367466], [1583867700000, 244977], [1583868600000, 0], [1583869500000, 0], [1583870400000, 0], [1583871300000, 0], [1583872200000, 0], [1583873100000, 0], [1583874000000, 0], [1583874900000, 0], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 0], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 3555], [1583886600000, 133333], [1583887500000, 2385866], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 0], [1583892900000, 0], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 0], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 5333], [1583847900000, 0], [1583848800000, 1606933], [1583849700000, 2368088], [1583850600000, 3183644], [1583851500000, 2368355], [1583852400000, 1460266], [1583853300000, 1858488], [1583854200000, 1856355], [1583855100000, 2008000], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 117422], [1583859600000, 5337066], [1583860500000, 0], [1583861400000, 0], [1583862300000, 0], [1583863200000, 0], [1583864100000, 0], [1583865000000, 0], [1583865900000, 0], [1583866800000, 8088], [1583867700000, 0], [1583868600000, 6755], [1583869500000, 0], [1583870400000, 0], [1583871300000, 0], [1583872200000, 0], [1583873100000, 0], [1583874000000, 11466], [1583874900000, 111644], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 6133], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 19288], [1583892000000, 133333], [1583892900000, 0], [1583893800000, 4622], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 0], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 17511], [1583910000000, 4444], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 0], [1583915400000, 0], [1583916300000, 0], [1583917200000, 27733], [1583918100000, 0], [1583919000000, 0], [1583919900000, 9244], [1583920800000, 133333], [1583921700000, 0], [1583922600000, 4622], [1583923500000, 0], [1583924400000, 3911], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 4177], [1583929800000, 109066], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]],[[1583847000000, 0], [1583847900000, 0], [1583848800000, 0], [1583849700000, 0], [1583850600000, 0], [1583851500000, 2479822], [1583852400000, 0], [1583853300000, 11555], [1583854200000, 0], [1583855100000, 0], [1583856000000, 0], [1583856900000, 0], [1583857800000, 0], [1583858700000, 0], [1583859600000, 4035466], [1583860500000, 2022311], [1583861400000, 2081955], [1583862300000, 1469866], [1583863200000, 2479111], [1583864100000, 0], [1583865000000, 0], [1583865900000, 0], [1583866800000, 0], [1583867700000, 0], [1583868600000, 0], [1583869500000, 0], [1583870400000, 785600], [1583871300000, 2328266], [1583872200000, 133333], [1583873100000, 0], [1583874000000, 0], [1583874900000, 0], [1583875800000, 0], [1583876700000, 0], [1583877600000, 0], [1583878500000, 0], [1583879400000, 0], [1583880300000, 0], [1583881200000, 0], [1583882100000, 0], [1583883000000, 0], [1583883900000, 0], [1583884800000, 0], [1583885700000, 0], [1583886600000, 0], [1583887500000, 0], [1583888400000, 0], [1583889300000, 0], [1583890200000, 0], [1583891100000, 0], [1583892000000, 0], [1583892900000, 0], [1583893800000, 0], [1583894700000, 0], [1583895600000, 0], [1583896500000, 0], [1583897400000, 0], [1583898300000, 0], [1583899200000, 0], [1583900100000, 0], [1583901000000, 0], [1583901900000, 0], [1583902800000, 0], [1583903700000, 0], [1583904600000, 0], [1583905500000, 2272000], [1583906400000, 0], [1583907300000, 0], [1583908200000, 0], [1583909100000, 0], [1583910000000, 0], [1583910900000, 0], [1583911800000, 0], [1583912700000, 0], [1583913600000, 0], [1583914500000, 64533], [1583915400000, 0], [1583916300000, 0], [1583917200000, 0], [1583918100000, 0], [1583919000000, 0], [1583919900000, 0], [1583920800000, 0], [1583921700000, 0], [1583922600000, 0], [1583923500000, 0], [1583924400000, 0], [1583925300000, 0], [1583926200000, 0], [1583927100000, 0], [1583928000000, 0], [1583928900000, 0], [1583929800000, 0], [1583930700000, 0], [1583931600000, 0], [1583932500000, 0]]];
 
-                      <!------APOD------->
-                      <div class="col-md-12" v-cloak style="overflow: auto;" v-if="APOD">
-                        <h3>APOD (Astronomy Picture of the Day)</h3>
-                        <p>{{title}} -- <span class="badge badge-info animated bounceInDown" style="font-size: 1em">{{date}}</span></p>
-                         <iframe v-if="type" :src="imageUrl" :title="imageTitle" width="700" height="350"></iframe>
-                         <img v-else :src="imageUrl" :title="imageTitle" width=90%>
-                       
-                      </div>
-                      <!--------NEO---------->
-                      <div class="col-md-12" v-else>
-                        <h3 class="">NEO (Near-earth Objects)</h3>
-                  
-                  	<transition name="test">
-                        <div v-cloak v-if="numAstroids > 0 && showDetail">
-                          <p class="mt-3 badge rounded animated fadeInLeft"  style="font-size: 1.1em;background: #69901D;padding:1em;">showing {{numAstroids}} items</p>
-                          <p>{{largestObject.name}} has the largest diameter among these NEOs. It's about <span class="badge badge-info animated heartBeat" style="font-size: 1em">{{largestObject.diameter}}</span> feet.</p>
-                        </div>
-                    </transition>
 
-                        <a href="#" @click="showDetail = !showDetail">Show/hide the summary</a>
-                        <table class="table table-dark table-striped" style="width: 100%;overflow: auto">
-                          <thead>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Close Approach Date</th>
-                            <th>Estimated Diameter (ft)</th>
-                            <th>Remove</th>
-                          </thead>
-                      	<tbody is="transition-group" name="tableRow" v-cloak>
-                            <tr v-cloak v-for="(a,index) in astroids" :key="a.neo_reference_id">
-                              <td>{{index + 1}}</td>
-                              <td>{{a.name}}</td>
-                              <td  :style="getRowStyle(a)">{{getApproachDate(a)}}</td>
-                              <td>
-                                <ul>
-                                  <li v-for="(value, key) in a.estimated_diameter.feet">
-                                    {{key}}: {{value}}
-                                  </li>
-                                </ul>
-                              </td>
-                              <td>
-                                <button @click="remove(index)" class="btn btn-warning animated fadeInRight">remove</button>
-                              </td>
-                            </tr>
-                   		 </tbody>
+  function formatBytes(bytes) {
+    if(bytes < 1024) return " ";
+    else
+		return(bytes / 1048576).toFixed(1);
+  };
 
-                        </table>
+chart.colors.list=[
+	am4core.color("#F15D22"),
+	am4core.color("#F8971D"),
+	am4core.color("#FFD24F"),
+	am4core.color("#00728F"),
+	am4core.color("#5C6F7C"),
+	am4core.color("#6CB33F"),
+	am4core.color("#60B030")
+]
 
-                      </div>
-                     
-                    </div>
-                </div>
-                     
-            </div>
-            </div>
+chart.data = [{
+  "hour": new Date(data_values[0][0][0]),
+  "1": formatBytes(data_values[0][0][1]),
+  "2": formatBytes(data_values[1][0][1]),
+  "3": formatBytes(data_values[2][0][1]),
+  "4": formatBytes(data_values[3][0][1]),
+  "5": formatBytes(data_values[4][0][1]),
+  "6": formatBytes(data_values[5][0][1]),
+  "7": formatBytes(data_values[6][0][1])
+}, {
+  "hour": new Date(data_values[0][1][0]),
+  "1": formatBytes(data_values[0][1][1]),
+  "2": formatBytes(data_values[1][1][1]),
+  "3": formatBytes(data_values[2][1][1]),
+  "4": formatBytes(data_values[3][1][1]),
+  "5": formatBytes(data_values[4][1][1]),
+  "6": formatBytes(data_values[5][1][1]),
+  "7": formatBytes(data_values[6][1][1])
+}, {
+  "hour": new Date(data_values[0][2][0]),
+  "1": formatBytes(data_values[0][2][1]),
+  "2": formatBytes(data_values[1][2][1]),
+  "3": formatBytes(data_values[3][2][1]),
+  "4": formatBytes(data_values[3][2][1]),
+  "5": formatBytes(data_values[4][2][1]),
+  "6": formatBytes(data_values[5][2][1]),
+  "7": formatBytes(data_values[6][2][1])
+}, {
+  "hour": new Date(data_values[0][3][0]),
+  "1": formatBytes(data_values[0][3][1]),
+  "2": formatBytes(data_values[1][3][1]),
+  "3": formatBytes(data_values[2][3][1]),
+  "4": formatBytes(data_values[3][3][1]),
+  "5": formatBytes(data_values[4][3][1]),
+  "6": formatBytes(data_values[5][3][1]),
+  "7": formatBytes(data_values[6][3][1])
+}, {
+  "hour": new Date(data_values[0][4][0]),
+  "1": formatBytes(data_values[0][4][1]),
+  "2": formatBytes(data_values[1][4][1]),
+  "3": formatBytes(data_values[2][4][1]),
+  "4": formatBytes(data_values[3][4][1]),
+  "5": formatBytes(data_values[4][4][1]),
+  "6": formatBytes(data_values[5][4][1]),
+  "7": formatBytes(data_values[6][4][1])
+}, {
+  "hour": new Date(data_values[0][5][0]),
+  "1": formatBytes(data_values[0][5][1]),
+  "2": formatBytes(data_values[1][5][1]),
+  "3": formatBytes(data_values[2][5][1]),
+  "4": formatBytes(data_values[3][5][1]),
+  "5": formatBytes(data_values[4][5][1]),
+  "6": formatBytes(data_values[5][5][1]),
+  "7": formatBytes(data_values[6][5][1])
+}, {
+  "hour": new Date(data_values[0][6][0]),
+  "1": formatBytes(data_values[0][6][1]),
+  "2": formatBytes(data_values[1][6][1]),
+  "3": formatBytes(data_values[2][6][1]),
+  "4": formatBytes(data_values[3][6][1]),
+  "5": formatBytes(data_values[4][6][1]),
+  "6": formatBytes(data_values[5][6][1]),
+  "7": formatBytes(data_values[6][6][1])
+}, {
+  "hour": new Date(data_values[0][7][0]),
+  "1": formatBytes(data_values[0][7][1]),
+  "2": formatBytes(data_values[1][7][1]),
+  "3": formatBytes(data_values[2][7][1]),
+  "4": formatBytes(data_values[3][7][1]),
+  "5": formatBytes(data_values[4][7][1]),
+  "6": formatBytes(data_values[5][7][1]),
+  "7": formatBytes(data_values[6][7][1])
+}, {
+  "hour": new Date(data_values[0][8][0]),
+  "1": formatBytes(data_values[0][8][1]),
+  "2": formatBytes(data_values[1][8][1]),
+  "3": formatBytes(data_values[2][8][1]),
+  "4": formatBytes(data_values[3][8][1]),
+  "5": formatBytes(data_values[4][8][1]),
+  "6": formatBytes(data_values[5][8][1]),
+  "7": formatBytes(data_values[6][8][1])
+}, {
+  "hour": new Date(data_values[0][9][0]),
+  "1": formatBytes(data_values[0][9][1]),
+  "2": formatBytes(data_values[1][9][1]),
+  "3": formatBytes(data_values[2][9][1]),
+  "4": formatBytes(data_values[3][9][1]),
+  "5": formatBytes(data_values[4][9][1]),
+  "6": formatBytes(data_values[5][9][1]),
+  "7": formatBytes(data_values[6][9][1])
+}, {
+  "hour": new Date(data_values[0][10][0]),
+  "1": formatBytes(data_values[0][10][1]),
+  "2": formatBytes(data_values[1][10][1]),
+  "3": formatBytes(data_values[2][10][1]),
+  "4": formatBytes(data_values[3][10][1]),
+  "5": formatBytes(data_values[4][10][1]),
+  "6": formatBytes(data_values[5][10][1]),
+  "7": formatBytes(data_values[6][10][1])
+}, {
+  "hour": new Date(data_values[0][11][0]),
+  "1": formatBytes(data_values[0][11][1]),
+  "2": formatBytes(data_values[1][11][1]),
+  "3": formatBytes(data_values[2][11][1]),
+  "4": formatBytes(data_values[3][11][1]),
+  "5": formatBytes(data_values[4][11][1]),
+  "6": formatBytes(data_values[5][11][1]),
+  "7": formatBytes(data_values[6][11][1])
+}, {
+  "hour": new Date(data_values[0][12][0]),
+  "1": formatBytes(data_values[0][12][1]),
+  "2": formatBytes(data_values[1][12][1]),
+  "3": formatBytes(data_values[2][12][1]),
+  "4": formatBytes(data_values[3][12][1]),
+  "5": formatBytes(data_values[4][12][1]),
+  "6": formatBytes(data_values[5][12][1]),
+  "7": formatBytes(data_values[6][12][1])
+}];
 
-       </div>
-  </div>
-   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-   <script type="text/javascript">
-   		
-	var vm = new Vue({
-					el: "#app",
-					data: {
-						imageUrl: "",
-						imageTitle: "",
-						title: "",
-						date: "",
-						type: "",
-						APOD: true,
-						disableBtn:false,
-						astroids: [],
-						showDetail: true
-					},
-					computed: {
-						numAstroids: function(){
-						return this.astroids.length;
-					},
-						largestObject: function(){
-							//get the objects that actually have diameter data
-							var neosHavingData = this.astroids.filter(function(neo){
-								return neo.estimated_diameter != null;
-							});
+console.log(data_values[0].length);
 
-							var simpleNeos = neosHavingData.map(function(neo){
-								return {name:neo.name, diameter: Math.round(neo.estimated_diameter.feet.estimated_diameter_max)};
-							});
+chart.dateFormatter.inputDateFormat = "H";
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.minGridDistance = 60;
+dateAxis.startLocation = 0.5;
+dateAxis.endLocation = 0.5;
+dateAxis.baseInterval = {
+  timeUnit: "minute",
+  count: 20
+}
 
-							var sortedNoes = simpleNeos.sort(function(a,b){
-								return a.diameter-b.diameter;
-							});
-							
-							return sortedNoes[sortedNoes.length-1];
-						}
-					},
-					created: function (){
-						this.fetchAstroids();
-					},
-					methods: {
-						fetchAstroids: function(){
-							var apiKey = 'aYKdbEeryeBw5nhmse0NJP5rPt3tzSlVavBfLOFE';
-							var url_apod = "https://api.nasa.gov/planetary/apod?api_key=" + apiKey;
-							var url_neo = "https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=" + apiKey;
-							axios.get(url_apod)
-							 .then(function(response){
-							 	vm.imageUrl = response.data.url;
-							 	vm.imageTitle = response.data.title;
-							 	vm.title = response.data.title;
-							 	vm.date = response.data.date;
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.title.text = "Inbound (Mbps)"
 
-							 	if(response.data.media_type == 'video')
-							 		vm.type = true;
-							 	else
-							 		vm.type = false;
-							 });
 
-							 axios.get(url_neo)
-							 .then(function(response2){
-							 	vm.astroids = response2.data.near_earth_objects.slice(0,20);
-							 });
-						},
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.dateX = "hour";
+series.name = data_ip[0];
+series.dataFields.valueY = "1";
+series.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[0]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series.tooltipText = "[#000]{valueY.value}M[/]";
+series.tooltip.background.fill = am4core.color("#FFF");
+series.tooltip.getStrokeFromObject = true;
+series.tooltip.background.strokeWidth = 3;
+series.tooltip.getFillFromObject = false;
+series.fillOpacity = 0.8;
+series.strokeWidth = 2;
+series.stacked = true;
 
-						getApproachDate: function(a){
-							if(a.close_approach_data.length != 0)
-								return a.close_approach_data[0].close_approach_date;
-							else
-								return 'N/A'
-						},
+var series2 = chart.series.push(new am4charts.LineSeries());
+series2.name = data_ip[1];
+series2.dataFields.dateX = "hour";
+series2.dataFields.valueY = "2";
+series2.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[1]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series2.tooltipText = "[#000]{valueY.value}M[/]";
+series2.tooltip.background.fill = am4core.color("#FFF");
+series2.tooltip.getFillFromObject = false;
+series2.tooltip.getStrokeFromObject = true;
+series2.tooltip.background.strokeWidth = 3;
+series2.sequencedInterpolation = true;
+series2.fillOpacity = 0.8;
+series2.stacked = true;
+series2.strokeWidth = 2;
 
-						remove: function(index){
-							this.astroids.splice(index,1);
-			
-						},
+var series3 = chart.series.push(new am4charts.LineSeries());
+series3.name = data_ip[2];
+series3.dataFields.dateX = "hour";
+series3.dataFields.valueY = "3";
+series3.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[2]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series3.tooltipText = "[#000]{valueY.value}M[/]";
+series3.tooltip.background.fill = am4core.color("#FFF");
+series3.tooltip.getFillFromObject = false;
+series3.tooltip.getStrokeFromObject = true;
+series3.tooltip.background.strokeWidth = 3;
+series3.sequencedInterpolation = true;
+series3.fillOpacity = 0.8;
+series3.defaultState.transitionDuration = 1000;
+series3.stacked = true;
+series3.strokeWidth = 2;
 
-						apod: function(){
-							vm.APOD = true;
-							this.disableBtn = false;
-						},
-						neo: function(){
-							vm.APOD = false;
-							this.disableBtn = true;
-						},
+var series4 = chart.series.push(new am4charts.LineSeries());
+series4.name = data_ip[3];
+series4.dataFields.dateX = "hour";
+series4.dataFields.valueY = "4";
+series4.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[3]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series4.tooltipText = "[#000]{valueY.value}M[/]";
+series4.tooltip.background.fill = am4core.color("#FFF");
+series4.tooltip.getFillFromObject = false;
+series4.tooltip.getStrokeFromObject = true;
+series4.tooltip.background.strokeWidth = 3;
+series4.sequencedInterpolation = true;
+series4.fillOpacity = 0.8;
+series4.defaultState.transitionDuration = 1000;
+series4.stacked = true;
+series4.strokeWidth = 2;
 
-						getRowStyle: function(a){
-							if (a.close_approach_data.length == 0) {
-								return {
-									color:'red',
-									'font-weight':'bold'
-									};
-							}
-						}
+var series5 = chart.series.push(new am4charts.LineSeries());
+series5.name = data_ip[4];
+series5.dataFields.dateX = "hour";
+series5.dataFields.valueY = "5";
+series5.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[4]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series5.tooltipText = "[#000]{valueY.value}M[/]";
+series5.tooltip.background.fill = am4core.color("#FFF");
+series5.tooltip.getFillFromObject = false;
+series5.tooltip.getStrokeFromObject = true;
+series5.tooltip.background.strokeWidth = 3;
+series5.sequencedInterpolation = true;
+series5.fillOpacity = 0.8;
+series5.defaultState.transitionDuration = 1000;
+series5.stacked = true;
+series5.strokeWidth = 2;
 
-					}
-				});
-   </script>
+var series6 = chart.series.push(new am4charts.LineSeries());
+series6.name = data_ip[5];
+series6.dataFields.dateX = "hour";
+series6.dataFields.valueY = "6";
+series6.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[5]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series6.tooltipText = "[#000]{valueY.value}M[/]";
+series6.tooltip.background.fill = am4core.color("#FFF");
+series6.tooltip.getFillFromObject = false;
+series6.tooltip.getStrokeFromObject = true;
+series6.tooltip.background.strokeWidth = 3;
+series6.sequencedInterpolation = true;
+series6.fillOpacity = 0.8;
+series6.defaultState.transitionDuration = 1000;
+series6.stacked = true;
+series6.strokeWidth = 2;
+
+var series7 = chart.series.push(new am4charts.LineSeries());
+series7.name = data_ip[6];
+series7.dataFields.dateX = "hour";
+series7.dataFields.valueY = "7";
+series7.tooltipHTML = "<p style='font-size:14px; color:#000000;'>"+data_ip[6]+": <span style='font-size:14px; color:#000000;'><b>{valueY.value}M</b></span></p>";
+series7.tooltipText = "[#000]{valueY.value}M[/]";
+series7.tooltip.background.fill = am4core.color("#FFF");
+series7.tooltip.getFillFromObject = false;
+series7.tooltip.getStrokeFromObject = true;
+series7.tooltip.background.strokeWidth = 3;
+series7.sequencedInterpolation = true;
+series7.fillOpacity = 0.8;
+series7.defaultState.transitionDuration = 1000;
+series7.stacked = true;
+series7.strokeWidth = 2;
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.xAxis = dateAxis;
+chart.scrollbarX = new am4core.Scrollbar();
+
+
+// Add a legend
+chart.legend = new am4charts.Legend();
+chart.legend.position = "right";
+
+
+
+
+
+}); // end am4core.ready()
+
+
+</script>
+
+
 </body>
 </html>
